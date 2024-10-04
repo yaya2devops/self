@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 const texts = [
   {
     title: "Principles of Transformation",
-    content: "Welcome to a collection of principles that shaped my journey from struggle to success. These aren't just ideas; they're the cornerstones of a life transformed. Each principle emerged from moments of challenge, revelation, and growth. They guided me from the brink of failure to the heights of the tech world. As you explore, remember: every ending is just a new beginning."
+    content: "Welcome to a collection of principles that shaped my journey from struggle to success. These aren't just ideas; they're the cornerstones of a life transformed. Each principle emerged from moments of challenge, revelation, and growth. They guided me from the brink of failure to the heights of the tech world. As you explore, remember: every ending is just a new beginning and you can control the dot spot as you go through this."
   },
   {
     title: "The Power of Alliances",
@@ -22,11 +22,11 @@ const texts = [
     content: "Enter Mr. Béchir, the teacher who changed everything. He didn't just teach math; he illuminated the path of possibility. Through his guidance, I learned that education is more than memorization—it's about understanding concepts and applying them to life. This experience showed me the profound impact a dedicated mentor can have, inspiring me to seek and value mentorship throughout my journey."
   },
   {
-    title: "Mathematics: The Language of Logic",
+    title: "Mathematics The Language of Logic",
     content: "The day math clicked was the day the world changed. Suddenly, it wasn't just about numbers on a page; it was a way of thinking, a tool for problem-solving that extended far beyond the classroom. This epiphany taught me to look for underlying principles in every challenge, breaking complex problems into solvable equations."
   },
   {
-    title: "Persistence Opens Doors",
+    title: "Persistence Opens Great Doors",
     content: "Getting into university wasn't just about grades; it was about relentless persistence. When my scores weren't enough, I didn't give up. Instead, I navigated bureaucracy, gathered documents, and made my case. This experience taught me that there's often more than one path to a goal, and that persistence can create opportunities where none seemed to exist."
   },
   {
@@ -50,7 +50,7 @@ const texts = [
     content: "Learning cloud computing felt like diving into a vast, unknown ocean. It was daunting, often overwhelming, but exhilarating. This journey taught me the value of embracing uncertainty, of learning to swim by diving in, and of trusting in my ability to adapt and grow in new environments."
   },
   {
-    title: "Certifications: Milestones of Mastery",
+    title: "Certifications Milestones of Mastery",
     content: "Each certification wasn't just a piece of paper; it was a milestone in a journey of mastery. The process of studying, failing, and ultimately succeeding in these exams taught me about resilience, the power of incremental progress, and the importance of celebrating small victories on the path to bigger goals."
   },
   {
@@ -82,54 +82,75 @@ const texts = [
     content: "Sharing my journey isn't just about telling a story; it's about lighting the way for others. This transition from learner to leader taught me about the responsibility of success and the power of inspiration. It showed me that our struggles and triumphs can become beacons of hope for others facing similar challenges."
   },
   {
-    title: "The Continuous Journey",
+    title: "The Way",
     content: "Looking back on this journey, I realize that every end is truly a new beginning. The principles that guided me here continue to evolve, shaping not just my career but my approach to life. As I stand at this point, I'm filled with curiosity about what's next. What new challenges will arise? What opportunities will emerge? The journey continues, and I'm excited to see where it leads. What's your next chapter?"
   }
 ];
 
+
 const ButtonSwiper = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 50, y: 90 }); // Default position, further down
+  const [position, setPosition] = useState({ x: 50, y: 85 });
   const containerRef = useRef(null);
+  const numberContainerRef = useRef(null);
 
   const handleNext = () => {
-    if (!isDragging) {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    // Remove any position change on click
   };
 
   const handleNumberClick = (index) => {
     setCurrentIndex(index);
+    scrollToNumber(index);
   };
 
-  const handleMouseDown = (e) => {
+  const handleInteractionStart = (e) => {
+    e.preventDefault();
     setIsDragging(true);
   };
 
-  const handleMouseMove = useCallback((e) => {
-    if (isDragging && containerRef.current) {
-      const container = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - container.left) / container.width) * 100;
-      const y = ((e.clientY - container.top) / container.height) * 100;
+  const handleInteractionMove = useCallback((e) => {
+    if (isDragging) {
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      const x = (clientX / window.innerWidth) * 100;
+      const y = (clientY / window.innerHeight) * 100;
       setPosition({ x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) });
     }
   }, [isDragging]);
 
-  const handleMouseUp = () => {
+  const handleInteractionEnd = () => {
     setIsDragging(false);
   };
 
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('mousemove', handleInteractionMove);
+      window.addEventListener('mouseup', handleInteractionEnd);
+      window.addEventListener('touchmove', handleInteractionMove);
+      window.addEventListener('touchend', handleInteractionEnd);
     }
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', handleInteractionMove);
+      window.removeEventListener('mouseup', handleInteractionEnd);
+      window.removeEventListener('touchmove', handleInteractionMove);
+      window.removeEventListener('touchend', handleInteractionEnd);
     };
-  }, [isDragging, handleMouseMove]);
+  }, [isDragging, handleInteractionMove]);
+
+  const scrollToNumber = (index) => {
+    if (numberContainerRef.current) {
+      const container = numberContainerRef.current;
+      const button = container.children[index];
+      const scrollLeft = button.offsetLeft - container.offsetWidth / 2 + button.offsetWidth / 2;
+      container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    scrollToNumber(currentIndex);
+  }, [currentIndex]);
 
   const isLastSlide = currentIndex === texts.length - 1;
 
@@ -137,23 +158,23 @@ const ButtonSwiper = () => {
     <div style={{ 
       display: 'flex', 
       flexDirection: 'column', 
-      minHeight: '100vh', 
+      height: '100vh', 
       backgroundColor: 'black', 
       color: 'white', 
-      fontFamily: 'serif' 
+      fontFamily: 'serif',
+      overflow: 'hidden',
+      position: 'relative'
     }}>
-      <div 
-        ref={containerRef}
-        style={{ 
-          flexGrow: 1, 
-          display: 'flex', 
-          flexDirection: 'column',
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          padding: '1rem',
-          position: 'relative',
-        }}
-      >
+      <div style={{ 
+        flexGrow: 1, 
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: '1rem',
+        overflowY: 'auto',
+        zIndex: 1
+      }}>
         <div style={{ 
           textAlign: 'center', 
           maxWidth: '42rem', 
@@ -183,50 +204,82 @@ const ButtonSwiper = () => {
             </p>
           </div>
         </div>
-        <button
-          onMouseDown={handleMouseDown}
-          onClick={handleNext}
-          style={{
-            position: 'absolute',
-            top: `${position.y}%`,
-            left: `${position.x}%`,
-            transform: 'translate(-50%, -50%)',
-            fontSize: '5rem',
-            background: 'none',
-            border: 'none',
-            color: 'white',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            transition: 'all 0.3s',
-            textShadow: isLastSlide 
-              ? '0 0 10px rgba(255,255,0,0.7), 0 0 20px rgba(255,255,0,0.5)' 
-              : '0 0 8px rgba(255,255,255,0.5), 0 0 16px rgba(255,255,255,0.3)',
-            filter: isLastSlide
-              ? 'drop-shadow(0 0 15px rgba(255,255,0,0.5))'
-              : 'drop-shadow(0 0 10px rgba(255,255,255,0.3))'
-          }}
-          aria-label="Next"
-        >
-          ⦿
-        </button>
       </div>
+      <button
+        onMouseDown={handleInteractionStart}
+        onTouchStart={handleInteractionStart}
+        onClick={handleNext}
+        style={{
+          position: 'fixed',
+          top: `${position.y}%`,
+          left: `${position.x}%`,
+          transform: 'translate(-50%, -50%)',
+          fontSize: '5rem',
+          background: 'none',
+          border: 'none',
+          color: 'white',
+          cursor: isDragging ? 'grabbing' : 'grab',
+          transition: 'all 0.3s ease',
+          textShadow: isLastSlide 
+            ? '0 0 10px rgba(255,255,0,0.7), 0 0 20px rgba(255,255,0,0.5)' 
+            : '0 0 8px rgba(255,255,255,0.5), 0 0 16px rgba(255,255,255,0.3)',
+          filter: isLastSlide
+            ? 'drop-shadow(0 0 15px rgba(255,255,0,0.5))'
+            : 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
+          zIndex: 10
+        }}
+        aria-label="Next"
+      >
+        ⦿
+      </button>
       <div style={{
-        width: '100%',
-        overflowX: 'auto',
-        padding: '1rem 0',
-        borderTop: '1px solid #1F2937'
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'black',
+        zIndex: 2
       }}>
         <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          padding: '0 0.5rem',
-          minWidth: 'max-content'
+          position: 'relative',
+          height: '2px',
+          backgroundColor: '#4B5563',
+          margin: '0 1rem 1rem'
         }}>
+          <div 
+            style={{
+              position: 'absolute',
+              height: '100%',
+              backgroundColor: '#F9FAFB',
+              width: `${((currentIndex + 1) / texts.length) * 100}%`,
+              transition: 'width 0.5s ease-in-out'
+            }}
+          />
+        </div>
+        <div 
+          ref={numberContainerRef}
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '0 0.5rem 1rem',
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            '&::-webkit-scrollbar': {
+              display: 'none'
+            },
+            scrollSnapType: 'x mandatory',
+            '@media (max-width: 768px)': {
+              justifyContent: 'flex-start',
+            }
+          }}
+        >
           {texts.map((_, index) => (
             <button
               key={index}
               onClick={() => handleNumberClick(index)}
               style={{
-                margin: '0 0.25rem',
+                flex: '1 0 auto',
                 padding: '0.25rem 0.5rem',
                 borderRadius: '0.375rem',
                 transition: 'all 0.3s',
@@ -235,7 +288,12 @@ const ButtonSwiper = () => {
                 color: currentIndex === index ? 'white' : '#6B7280',
                 fontWeight: currentIndex === index ? 'bold' : 'normal',
                 border: 'none',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                scrollSnapAlign: 'center',
+                '@media (max-width: 768px)': {
+                  flex: '0 0 auto',
+                  margin: '0 0.25rem',
+                }
               }}
             >
               {index + 1}

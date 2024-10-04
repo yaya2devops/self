@@ -2,7 +2,7 @@
 
 My life changed at twenty two, so here is a 21 ⦿ for you.
 
-[![The Divine](whole/public/favicon.svg)](https://dot.ya-ya.tech)
+[![The Divine](whole/public/favicon.svg)](https://dot.h.ya-ya.tech)
 
 This symbol means the world to me.
 <br>You'll probably find it everywhere in my works.
@@ -11,8 +11,18 @@ You can call it whatever you wish: the self versus the other, the conscious vers
 
 For me, it represents all of these and more—something that combines them all.
 
-Our connection to the divine.
+### Our connection to the divine.
 
-We are not separate from others.
+We are not separate from the very others.
 
-Sit in the middle and let things flow around you ⦿
+Sit in the middle and let things flow just around you ⦿
+
+- Here is the emotional center - The feelings ⦿
+- Here is the intellectual center - The mind ⦿
+- Here is the instictive center - The body ⦿
+
+And here is [the sly man](https://create.ya-ya.tech/sly/man.pdf) ⦿
+
+⦿ + ⦿ + ⦿
+
+---

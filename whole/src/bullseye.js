@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 const texts = [
   {
@@ -89,59 +89,154 @@ const texts = [
 
 const ButtonSwiper = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 50, y: 90 }); // Default position, further down
+  const containerRef = useRef(null);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    if (!isDragging) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    }
   };
 
   const handleNumberClick = (index) => {
     setCurrentIndex(index);
   };
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = useCallback((e) => {
+    if (isDragging && containerRef.current) {
+      const container = containerRef.current.getBoundingClientRect();
+      const x = ((e.clientX - container.left) / container.width) * 100;
+      const y = ((e.clientY - container.top) / container.height) * 100;
+      setPosition({ x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) });
+    }
+  }, [isDragging]);
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, handleMouseMove]);
+
   const isLastSlide = currentIndex === texts.length - 1;
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white font-serif">
-      <div className="flex-grow flex items-center justify-center p-4">
-        <div className="text-center max-w-2xl px-4 relative">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            {texts[currentIndex].title}
-          </h2>
-          <p 
-            className={`text-lg sm:text-xl md:text-2xl mb-8 transition-all duration-500 ${isLastSlide ? 'text-yellow-300' : ''}`}
-            style={{ fontFamily: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif' }}
-          >
-            {texts[currentIndex].content}
-          </p>
-          <button
-            onClick={handleNext}
-            className={`text-6xl sm:text-7xl md:text-8xl focus:outline-none transition-all duration-300 transform hover:scale-110 active:scale-95 ${isLastSlide ? 'animate-pulse' : ''}`}
-            aria-label="Next"
-            style={{
-              fontFamily: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
-              textShadow: isLastSlide 
-                ? '0 0 10px rgba(255,255,0,0.7), 0 0 20px rgba(255,255,0,0.5)' 
-                : '0 0 8px rgba(255,255,255,0.5), 0 0 16px rgba(255,255,255,0.3)',
-              filter: isLastSlide
-                ? 'drop-shadow(0 0 15px rgba(255,255,0,0.5))'
-                : 'drop-shadow(0 0 10px rgba(255,255,255,0.3))'
-            }}
-          >
-            ⦿
-          </button>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh', 
+      backgroundColor: 'black', 
+      color: 'white', 
+      fontFamily: 'serif' 
+    }}>
+      <div 
+        ref={containerRef}
+        style={{ 
+          flexGrow: 1, 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          padding: '1rem',
+          position: 'relative',
+        }}
+      >
+        <div style={{ 
+          textAlign: 'center', 
+          maxWidth: '42rem', 
+          width: '100%',
+          padding: '0 1rem', 
+          marginBottom: '2rem'
+        }}>
+          <div style={{ 
+            border: '1px solid rgba(255, 255, 255, 0.2)', 
+            borderRadius: '0.5rem', 
+            padding: '1.5rem', 
+            marginBottom: '2rem' 
+          }}>
+            <h2 style={{ 
+              fontSize: '2.25rem', 
+              fontWeight: 'bold', 
+              marginBottom: '1rem' 
+            }}>
+              {texts[currentIndex].title}
+            </h2>
+            <p style={{ 
+              fontSize: '1.25rem', 
+              transition: 'all 0.5s',
+              color: isLastSlide ? '#FDE68A' : 'white'
+            }}>
+              {texts[currentIndex].content}
+            </p>
+          </div>
         </div>
+        <button
+          onMouseDown={handleMouseDown}
+          onClick={handleNext}
+          style={{
+            position: 'absolute',
+            top: `${position.y}%`,
+            left: `${position.x}%`,
+            transform: 'translate(-50%, -50%)',
+            fontSize: '5rem',
+            background: 'none',
+            border: 'none',
+            color: 'white',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            transition: 'all 0.3s',
+            textShadow: isLastSlide 
+              ? '0 0 10px rgba(255,255,0,0.7), 0 0 20px rgba(255,255,0,0.5)' 
+              : '0 0 8px rgba(255,255,255,0.5), 0 0 16px rgba(255,255,255,0.3)',
+            filter: isLastSlide
+              ? 'drop-shadow(0 0 15px rgba(255,255,0,0.5))'
+              : 'drop-shadow(0 0 10px rgba(255,255,255,0.3))'
+          }}
+          aria-label="Next"
+        >
+          ⦿
+        </button>
       </div>
-      <div className="w-full overflow-x-auto py-4 bg-black border-t border-gray-800">
-        <div className="flex justify-between px-2 sm:px-4 min-w-max">
+      <div style={{
+        width: '100%',
+        overflowX: 'auto',
+        padding: '1rem 0',
+        borderTop: '1px solid #1F2937'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '0 0.5rem',
+          minWidth: 'max-content'
+        }}>
           {texts.map((_, index) => (
             <button
               key={index}
               onClick={() => handleNumberClick(index)}
-              className={`mx-1 px-2 py-1 sm:px-3 sm:py-2 rounded-lg transition-all duration-300 text-sm sm:text-base ${
-                currentIndex === index 
-                  ? 'bg-gray-800 text-white font-bold'
-                  : 'bg-transparent text-gray-500 hover:bg-gray-900 hover:text-gray-300'
-              }`}
+              style={{
+                margin: '0 0.25rem',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.375rem',
+                transition: 'all 0.3s',
+                fontSize: '0.875rem',
+                backgroundColor: currentIndex === index ? '#374151' : 'transparent',
+                color: currentIndex === index ? 'white' : '#6B7280',
+                fontWeight: currentIndex === index ? 'bold' : 'normal',
+                border: 'none',
+                cursor: 'pointer'
+              }}
             >
               {index + 1}
             </button>

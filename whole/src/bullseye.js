@@ -92,7 +92,6 @@ const ButtonSwiper = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 50, y: 85 });
-  const containerRef = useRef(null);
   const numberContainerRef = useRef(null);
 
   const handleNext = () => {

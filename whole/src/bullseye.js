@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 const texts = [
   {
     title: "Principles of Transformation",
-    content: "Welcome to a collection of principles that shaped my journey from struggle to success. These aren't just ideas; they're the cornerstones of a life transformed. Each principle emerged from moments of challenge, revelation, and growth. They guided me from the brink of failure to the heights of the tech world. As you explore, remember: every ending is just a new beginning and you can control the dot spot as you go through this."
+    content: "Welcome to a collection of principles that shaped my journey from struggle and nowhere to success and somewhere. These aren't just ideas; they're the cornerstones of a life transformed. Each principle emerged from moments of challenge, revelation, and growth. They guided me from the brink of failure to the heights of the tech world. As you explore, remember: every ending is just a new beginning and you can control the dot spot as you go through this."
   },
   {
     title: "The Power of Alliances",
@@ -11,7 +11,7 @@ const texts = [
   },
   {
     title: "Embracing Isolation's Gift",
-    content: "Isolation, often seen as a setback, became an unexpected ally. In the quiet moments of solitude, I discovered the space to confront my weaknesses and transform them into strengths. This period taught me that discomfort is often the precursor to growth, and that embracing challenging circumstances can lead to profound personal development."
+    content: "Isolation, often seen as a setback, became an unexpected ally. In the quiet moments of solitude, I discovered the space to confront my weaknesses and transform them into strengths.I was alone but not lonely. I embraced creation as a way to handle the hurdles, and I consistently worked on a college guide during that time to ease the pain. It somehow proved to be helpful and potentially a lifesaver for many. This period taught me that discomfort is often the precursor to growth, and that embracing challenging circumstances can lead to profound personal development."
   },
   {
     title: "The Mountain of National Exams",
@@ -55,11 +55,11 @@ const texts = [
   },
   {
     title: "Breaking Geographical Barriers",
-    content: "Landing a remote tech job while still in Africa was more than a career move; it was a paradigm shift. It taught me that in the digital age, opportunities are global, and that with the right skills and mindset, one can transcend geographical limitations and compete on a global stage."
+    content: "Landing a remote tech job while still in Africa was more than a career move; it was a paradigm shift. It taught me that in the digital age, opportunities are global, and that with the right skills and mindset, one can transcend geographical limitations and compete on a global stage so I did my best to help others do the same by producing a paper and a product based on that experience."
   },
   {
     title: "The Leap to Qatar",
-    content: "Moving to Qatar for an onsite job was a leap into the unknown. It taught me about courage, adaptability, and the growth that comes from stepping out of one's comfort zone. This experience reinforced the idea that sometimes, the biggest risks yield the greatest rewards."
+    content: "Moving to Qatar for an onsite job was a leap into the unknown. It taught me about courage, adaptability, and the growth that comes from stepping out of one's comfort zone. This experience reinforced the idea that sometimes, the biggest risks yield the greatest rewards and that the word lucky is, man, so real."
   },
   {
     title: "The Security Imperative",
@@ -75,15 +75,15 @@ const texts = [
   },
   {
     title: "Badges of Lifelong Learning",
-    content: "Earning 31 certifications across different platforms wasn't about collecting badges; it was about committing to lifelong learning. This journey taught me that in the fast-paced tech world, staying relevant means staying curious and always being ready to learn something new."
+    content: "Earning 31 certifications across different cloud platforms and technology tools wasn't about collecting badges; it was about committing to lifelong learning and planting the seed needed. This journey taught me that in the fast-paced tech world, staying relevant means staying curious and always being ready to learn something new."
   },
   {
     title: "From Learner to Leader",
-    content: "Sharing my journey isn't just about telling a story; it's about lighting the way for others. This transition from learner to leader taught me about the responsibility of success and the power of inspiration. It showed me that our struggles and triumphs can become beacons of hope for others facing similar challenges."
+    content: "Sharing my journey to the world isn't just about telling a story; it's about lighting the way for others. Literally. This transition from learner to leader taught me about the responsibility of success and the power of inspiration. It showed me that our struggles and triumphs can become beacons of hope for others facing similar challenges."
   },
   {
     title: "The Way",
-    content: "Looking back on this journey, I realize that every end is truly a new beginning. The principles that guided me here continue to evolve, shaping not just my career but my approach to life. As I stand at this point, I'm filled with curiosity about what's next. What new challenges will arise? What opportunities will emerge? The journey continues, and I'm excited to see where it leads. What's your next chapter?"
+    content: "Looking back on this start, I realize that every end is truly a new beginning to something better your present is yet unable to imagine. The principles that guided me here continue to evolve, shaping not just my career but my approach to life. As I stand at this point ⦿ I'm filled with curiosity about what's up next. What new challenges will arise? What opportunities will emerge? The journey continues, and I'm excited to see where it leads. Hoping you were able to move the dot somewhere as you were reaching over here. Take it—It is yours now ⦿"
   }
 ];
 

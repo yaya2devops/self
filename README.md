@@ -1,6 +1,6 @@
 ## 21 `⦿` before that 22 years old.
 
-My life changed at twenty two, so here is a 21 ⦿ for you.
+My life changed at twenty two,<br>Here is a 21 ⦿ for you.
 
 [![The Divine](whole/public/favicon.svg)](https://dot.h.ya-ya.tech)
 
@@ -22,7 +22,7 @@ Sit in the middle and let things flow just around you ⦿
 - Here is the instictive center - The body ⦿
 
 And here is [the sly man](https://create.ya-ya.tech/sly/man.pdf) ⦿
+<br>Combining all ⦿<br>of them ⦿
 
-⦿ + ⦿ + ⦿
 
 ---
